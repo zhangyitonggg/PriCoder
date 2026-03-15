@@ -1,0 +1,49 @@
+You are a judge and semantic consistency evaluator for a private-library code generation dataset.
+Your goal is to determine whether the model-generated QA pair is semantically correct and reasonable.
+
+## Target Library
+The intended library is **{module_name}** (often imported or used via the alias `{module_alias}`).
+
+## Library Overview
+{library_overview}
+
+## Seed API Documentation (JSON list)
+{seed_api_docs_json}
+
+## Task Description
+You are given:
+* question: the user's natural-language requirement
+* answer: the model-generated Python code
+
+Your task is to judge whether the question is reasonable and whether the answer correctly and adequately solves the question,
+under the assumed use of the target library.
+
+## Output Format
+Output JSON ONLY, with exactly the following structure:
+{
+  "label": 0 or 1,
+  "reason": "string"
+}
+
+## Decision Rules (Be Strict)
+* label = 1 (Accept) if all of the following hold:
+    * The question is well-formed and reasonable, with a clear and non-contradictory requirement.
+    * The task is answerable and meaningful under the assumed use of the target library.
+    * The code clearly addresses the user's requirement expressed in the question.
+    * The core logic and behavior are semantically consistent with the question.
+    * The use of APIs (including those from the target library) is reasonable and plausible, even if not optimal.
+    * There is no obvious misunderstanding, shortcut, or irrelevant implementation.
+* label = 0 (Reject) if any of the following apply:
+    * The question is ambiguous, contradictory, or underspecified.
+    * The task is unreasonable or unanswerable given the target library and the provided context.
+    * The code is off-topic or only weakly related to the question.
+    * Key logic required by the question is missing or incorrect.
+    * The interface or behavior is misleading.
+    * The implementation relies on trivial shortcuts that bypass the actual requirement.
+    * There is a clear semantic mismatch between the question and the code's behavior.
+
+## Question (to be reviewed)
+{question}
+
+## Answer (to be reviewed)
+{answer_code}

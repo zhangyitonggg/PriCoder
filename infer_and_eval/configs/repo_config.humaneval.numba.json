@@ -1,0 +1,35 @@
+{
+  "repo_name": "numba.cuda",
+  "library_name": "numba.cuda",
+  "default_import_alias": "cuda",
+  "infer_import_alias_from_starter": true,
+  "benchmark_fields": {
+    "task": "task",
+    "prompt": "prompt",
+    "test": "test",
+    "api_list": "api_list",
+    "seed_apis": "seed_apis"
+  },
+  "api_docs": {
+    "full_name_field": "full_name",
+    "signature_field": "signature",
+    "docstring_field": "docstring",
+    "max_doc_chars": 360,
+    "full_name_inference_rules": [
+      {
+        "when": {
+          "always": true
+        },
+        "template": "{qualname}"
+      }
+    ]
+  },
+  "api_block_titles": {
+    "gold": "The following are recommended {library_name} API, It may not be accurate, You can use any number of them.If you think none of them is helpful, you can use none of them and do the task yourself.",
+    "none": "The following are recommended {library_name} API, It may not be accurate, You can use any number of them.If you think none of them is helpful, you can use none of them and do the task yourself."
+  },
+  "prompt": {
+    "system_prompt": "You are a coding assistant.\nYou MUST output exactly one Python fenced code block using ```python ... ```.\nDo NOT include any explanations or text outside the code block.\n",
+    "library_usage_instruction_template": "5) You MUST use/call functions from the given {library_name} library (the provided API docs / {library_alias}.*) to implement the solution.\n   Do NOT reimplement {library_name} primitives yourself.\n\n"
+  }
+}

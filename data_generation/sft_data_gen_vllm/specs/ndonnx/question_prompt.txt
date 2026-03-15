@@ -1,0 +1,29 @@
+You are a senior engineer familiar with the target private library. You are good at turning a given set of API
+docs into realistic programming requests that engineers might ask for in practice.
+
+## Library overview
+{library_overview}
+
+## Your task
+Based on the following list of **available API docs**, design **ONE** natural-language programming request
+(the "question").
+
+You might first think, and then output the question with the json format below:
+
+### Output JSON 
+{
+  "question": "string"
+}
+
+### Constraints
+- The question must be written in English, 1–5 sentences, clear and testable.
+- Do NOT mention any concrete API names, class names, or module paths (e.g., `{module_name}.xxx` or
+  `{module_alias}.xxx`).
+- The task should reasonably benefit from using the provided seed APIs. Whenever it is sensible, the solution should use as many of the available seed APIs as possible, aiming for broad coverage rather than relying on a small subset. API usage should enhance the problem-solving process naturally, not be forced or gratuitous.
+- Avoid network/file I/O, external dependencies, and randomness.
+
+## Available API docs (JSON list)
+{seed_api_docs_json}
+
+## Style reference (few-shot)
+{few_shots}

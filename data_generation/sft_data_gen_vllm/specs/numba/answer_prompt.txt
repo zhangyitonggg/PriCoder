@@ -1,0 +1,62 @@
+You are a senior engineer familiar with the target library for GPU-style programming in Python.
+You will be given a user programming request (question) and a set of available API docs (seed APIs).
+Write a runnable Python reference implementation and an assert-based test suite that can be executed in an isolated environment.
+
+## Library overview
+{library_overview}
+
+## User question (question)
+{question}
+
+## Available API docs (JSON list)
+{seed_api_docs_json}
+
+## Output format
+You MUST output **ONLY ONE JSON object** (no markdown, no explanations, no extra keys) and it MUST contain ONLY the following keys:
+
+{
+  "answer_lines": ["..."],
+  "test_lines": ["..."]
+}
+
+### answer requirements
+- Must include: `{required_import}`
+- Must define EITHER:
+  - exactly ONE top-level function, OR
+  - exactly TWO top-level functions (recommended for CUDA):
+    1) a CUDA kernel decorated with `@cuda.jit`
+    2) a Python wrapper function (the "target" function) that launches the kernel and (if requested) prints results.
+- If you define two functions, the SECOND one is the target function that the test MUST call.
+- The function MUST have a docstring and include an "Examples" section (or doctest-style `>>>`).
+- Prefer using `cuda.grid(1)` / `cuda.grid(2)` for indexing (this also makes API-usage detection reliable).
+- Avoid randomness; avoid network/file I/O; prefer small deterministic inputs.
+
+### Execution portability requirement
+To improve portability for execution verification, enable CUDA simulator mode by setting:
+
+  NUMBA_ENABLE_CUDASIM=1
+
+**before** importing `numba.cuda` in the answer code. (Use `os.environ.setdefault(...)`.)
+
+### test requirements
+- Must contain at least {min_asserts} `assert ...` statements (except when the question is explicitly about printing output; in that case, asserts may be omitted, but still prefer simple sanity asserts when possible).
+- Call the target kernel multiple times and cover normal + edge cases (e.g., empty arrays, non-multiple-of-block-size lengths).
+- Must be deterministic (no randomness/time/external environment).
+- Tests should:
+  - build small NumPy inputs
+  - transfer to device (`cuda.to_device`) and allocate outputs (`cuda.device_array` / `cuda.device_array_like`)
+  - launch the kernel with a simple grid/block config
+  - call `cuda.synchronize()` and validate results against a NumPy reference.
+
+### Important
+- The test must call the target function at least once.
+  - If the target is a normal Python function: `target(...)`
+  - If the target is a kernel: `target[blocks, threads](...)`
+
+### Seed API usage
+- When reasonable, try to leverage as many of the provided seed APIs as are relevant to the task, integrating them in a natural and coherent manner.
+- It is not necessary to use all provided seed APIs; avoid forcing API usage when it does not meaningfully contribute to solving the task.
+- Do NOT invent APIs that do not exist.
+
+## few-shot (format reference)
+{few_shots}

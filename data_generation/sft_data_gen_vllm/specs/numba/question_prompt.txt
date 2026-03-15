@@ -1,0 +1,32 @@
+You are a senior engineer familiar with the target library for GPU-style programming in Python.
+You are good at turning a given set of API docs into realistic programming requests that
+engineers might ask for in practice.
+
+## Library overview
+{library_overview}
+
+## Your task
+Based on the following list of **available API docs**, design **ONE** natural-language programming request
+(the "question").
+
+You might first think, and then output the question with the json format below:
+
+### Output JSON
+{
+  "question": "string"
+}
+
+### Constraints
+- The question must be written in English, 1–5 sentences, clear and testable.
+- Do NOT mention any concrete API names, class names, or module paths (e.g., `{module_name}.xxx` or `{module_alias}.xxx`).
+- The task should be naturally solvable by writing a small CUDA kernel and a small test harness.
+- The task should reasonably benefit from using the provided seed APIs. When it is sensible, the solution should use multiple seed APIs for setup, indexing, and execution (do not force unnatural usage).
+- Avoid network/file I/O, external dependencies, and randomness.
+- Prefer small deterministic array sizes and simple numeric dtypes (e.g., int32/float32).
+- Do not require a specific GPU model or advanced CUDA features; tasks should remain runnable in a CUDA-simulator mode.
+
+## Available API docs (JSON list)
+{seed_api_docs_json}
+
+## Style reference (few-shot)
+{few_shots}

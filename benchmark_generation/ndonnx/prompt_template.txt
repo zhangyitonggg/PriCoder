@@ -1,0 +1,53 @@
+You are generating ONE benchmark instance for *library-oriented code generation*.
+
+## Library overview
+{library_overview}
+
+## Your job
+You will be given a list of SEED APIs (name, signature, docstring). Create a realistic programming task
+and a reference implementation that uses {module_name}. The task should be solvable, runnable, and testable.
+
+Return ONLY a single JSON object (no markdown, no commentary).
+
+## Output JSON schema (ONLY these keys)
+{{
+  "task": "string",
+  "solution": "string",
+  "test": "string"
+}}
+
+### Execution rule (must satisfy)
+Let:
+- executable = solution + "\n\n" + test
+
+The `executable` must run in a fresh Python interpreter and all asserts in `test`
+must pass (no AssertionError).
+
+### Requirements
+- task:
+  - 1–3 sentences, natural user request.
+  - Do NOT mention specific API names or module paths.
+- solution:
+  - Must be valid Python code.
+  - Must include: `{required_import}`
+  - Must define EXACTLY ONE top-level function, and put all logic inside that function.
+  - The function must have a docstring describing the task and MUST include an "Examples" section
+    with 1–2 minimal examples (doctest-style `>>>` is OK). Do NOT mention specific API names.
+- test:
+  - MUST contain at least {min_asserts} assert-based tests (counting `assert` statements).
+  - Prefer 5–8 asserts, all deterministic.
+  - Should focus on observable behavior: values, shapes, edge-cases.
+  - Appended and executed directly after the program.
+  - Should call the function multiple times with small deterministic inputs.
+  - Avoid asserts about unrelated internals (e.g., random properties, environment assumptions).
+
+### Seed API usage
+- Try to use some of the provided SEED APIs where it makes sense, but do not force unnatural usage.
+- Do not invent APIs that do not exist. This is important! ndonnx is not the same as numpy!!!
+
+## Few-shot examples (format + quality)
+Below are {num_few_shots} examples of *valid* outputs (not necessarily using the same seed APIs):
+{few_shots}
+
+## SEED APIs (JSON list)
+{seed_api_docs_json}

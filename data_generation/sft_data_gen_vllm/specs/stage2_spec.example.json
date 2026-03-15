@@ -1,0 +1,35 @@
+{
+  "library_name": "mylib",
+  "library_overview": "Example: mylib is an internal private library that provides tensor/array processing, model components, and several high-level utility functions. When generating tasks, prefer small runnable and testable problems; avoid network/file I/O.",
+  "module_name": "mylib",
+  "module_alias": "ml",
+  "required_import": "import mylib as ml",
+  "module_call_prefixes": [
+    "ml",
+    "mylib"
+  ],
+  "system_message": "You are a careful data generator. Follow instructions exactly. Output must be machine-parseable.",
+  "num_few_shots_q": 2,
+  "num_few_shots_a": 2,
+  "min_asserts": 5,
+  "seed_overlap_required": true,
+  "few_shot_pool": [
+    {
+      "task": "Implement a function that first applies z-score standardization to an input numeric list, then clips the standardized values to a given interval, and returns a new processed list.",
+      "solution": "```python\nimport mylib as ml\n\ndef preprocess(values: list[float], *, clip_min: float = -3.0, clip_max: float = 3.0) -> list[float]:\n    \"\"\"Standardize a list of numbers using z-score and clip to a range.\n\n    The returned list is a new list and does not modify the input.\n\n    Examples:\n        >>> preprocess([1.0, 2.0, 3.0], clip_min=-1.0, clip_max=1.0)\n        [-1.0, 0.0, 1.0]\n        >>> preprocess([])\n        []\n    \"\"\"\n    if not values:\n        return []\n    mean = sum(values) / len(values)\n    var = sum((x - mean) ** 2 for x in values) / len(values)\n    std = var ** 0.5\n    # Avoid division by zero for constant lists.\n    if std == 0:\n        standardized = [0.0 for _ in values]\n    else:\n        standardized = [(x - mean) / std for x in values]\n\n    def _clip(x: float) -> float:\n        if x < clip_min:\n            return float(clip_min)\n        if x > clip_max:\n            return float(clip_max)\n        return float(x)\n\n    return [_clip(x) for x in standardized]\n```",
+      "test": "```python\nxs = [1.0, 2.0, 3.0]\nys = preprocess(xs, clip_min=-1.0, clip_max=1.0)\nassert len(ys) == 3\nassert min(ys) >= -1.0 and max(ys) <= 1.0\nassert ys[1] == 0.0\nassert preprocess([]) == []\nassert preprocess([5.0, 5.0], clip_min=-2, clip_max=2) == [0.0, 0.0]\n```"
+    },
+    {
+      "task": "Implement a function: given a 2D matrix (nested lists), compute the mean of each column and return a new matrix where each element is centered by subtracting its column mean.",
+      "solution": "```python\nimport mylib as ml\n\ndef center_by_column(mat: list[list[float]]) -> list[list[float]]:\n    \"\"\"Center a 2D matrix by subtracting per-column means.\n\n    Input is a nested list with shape (n_rows, n_cols). The output has the same shape.\n\n    Examples:\n        >>> center_by_column([[1, 2], [3, 4]])\n        [[-1.0, -1.0], [1.0, 1.0]]\n    \"\"\"\n    if not mat:\n        return []\n    n_rows = len(mat)\n    n_cols = len(mat[0])\n    if n_cols == 0:\n        return [[] for _ in mat]\n    if any(len(r) != n_cols for r in mat):\n        raise ValueError(\"All rows must have the same length\")\n\n    means = [0.0] * n_cols\n    for c in range(n_cols):\n        means[c] = sum(mat[r][c] for r in range(n_rows)) / n_rows\n\n    out: list[list[float]] = []\n    for r in range(n_rows):\n        row = [float(mat[r][c] - means[c]) for c in range(n_cols)]\n        out.append(row)\n    return out\n```",
+      "test": "```python\nm = [[1.0, 2.0], [3.0, 4.0]]\nout = center_by_column(m)\nassert out == [[-1.0, -1.0], [1.0, 1.0]]\nassert center_by_column([]) == []\nassert center_by_column([[1.0], [1.0]]) == [[0.0], [0.0]]\ntry:\n    center_by_column([[1.0, 2.0], [3.0]])\n    assert False, \"should raise\"\nexcept ValueError:\n    assert True\nassert m == [[1.0, 2.0], [3.0, 4.0]]\n```"
+    },
+    {
+      "task": "Write a function that splits an input string by whitespace into tokens, counts the frequency of each token, and returns a dictionary.",
+      "solution": "```python\nimport mylib as ml\n\ndef count_tokens(text: str) -> dict[str, int]:\n    \"\"\"Count whitespace-separated tokens in a string.\n\n    Examples:\n        >>> count_tokens('a b a')\n        {'a': 2, 'b': 1}\n    \"\"\"\n    counts: dict[str, int] = {}\n    for tok in text.split():\n        counts[tok] = counts.get(tok, 0) + 1\n    return counts\n```",
+      "test": "```python\nassert count_tokens(\"\") == {}\nassert count_tokens(\"a\") == {\"a\": 1}\nassert count_tokens(\"a b a\") == {\"a\": 2, \"b\": 1}\nassert count_tokens(\"  a   b\\n\") == {\"a\": 1, \"b\": 1}\nassert isinstance(count_tokens(\"x\"), dict)\n```"
+    }
+  ],
+  "api_docs_file": "/path/to/in_doc.jsonl",
+  "num_few_shots": 2
+}

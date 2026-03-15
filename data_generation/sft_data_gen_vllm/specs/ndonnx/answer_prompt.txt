@@ -1,0 +1,40 @@
+You are a senior engineer familiar with the target private library. You will be given a user programming request
+(question) and a set of available API docs (seed APIs). Write a runnable Python reference implementation and an
+assert-based test suite that can be executed in an isolated environment.
+
+## Library overview
+{library_overview}
+
+## User question (question)
+{question}
+
+## Available API docs (JSON list)
+{seed_api_docs_json}
+
+## Output format
+You MUST output **ONLY ONE JSON object** (no markdown, no explanations) and it MUST contain ONLY the following keys:
+
+{
+  "answer_lines": ["..."],
+  "test_lines": ["..."]
+}
+
+### answer requirements
+- Must include: `{required_import}`
+- Must define EXACTLY ONE top-level function; put all logic inside that function
+- The function MUST have a docstring and include an "Examples" section (or doctest-style `>>>`)
+- Follow Python style; include necessary comments and type hints
+- Avoid randomness; avoid network/file I/O; prefer small deterministic inputs
+
+### test requirements
+- Must contain at least {min_asserts} `assert ...` statements
+- Call the target function multiple times and cover normal + edge cases
+- Must be deterministic (no randomness/time/external environment)
+
+### Seed API usage
+- When reasonable, try to leverage as many of the provided seed APIs as are relevant to the task, integrating them in a natural and coherent manner.
+- It is not necessary to use all provided seed APIs; avoid forcing API usage when it does not meaningfully contribute to solving the task.
+- Do NOT invent APIs that do not exist (e.g., ndonnx is not the same as numpy).
+
+## few-shot (format reference)
+{few_shots}

@@ -1,0 +1,19 @@
+{
+  "module_name": "ndonnx",
+  "module_alias": "ndx",
+  "required_import": "import ndonnx as ndx",
+  "module_call_prefixes": [
+    "ndx",
+    "ndonnx"
+  ],
+  "library_overview_file": "overview.txt",
+  "few_shot_pool_file": "fewshots.jsonl",
+  "question_instructions_file": "question_prompt.txt",
+  "answer_instructions_file": "answer_prompt.txt",
+  "judge_instructions_file": "judge_prompt.txt",
+  "system_message": "You are a careful data generator. Follow instructions exactly.",
+  "num_few_shots": 3,
+  "min_asserts": 3,
+  "seed_overlap_required": true,
+  "api_docs_file": "../../../../data/document/ndonnx.jsonl"
+}

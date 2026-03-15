@@ -1,0 +1,48 @@
+numba.cuda is a Python library for writing and launching CUDA kernels directly from Python.
+It provides a CUDA C-like programming model (threads, blocks, grids) but uses Python syntax
+and JIT compilation.
+
+This dataset focuses on small, deterministic, runnable GPU-style kernels that operate on
+NumPy arrays transferred to a CUDA device (or executed via a CUDA simulator).
+
+Portability note (important for execution verification)
+-----------------------------------------------------
+To make examples runnable on machines without an NVIDIA GPU/driver, you can enable Numba's
+CUDA simulator by setting the environment variable `NUMBA_ENABLE_CUDASIM=1` *before*
+importing `numba.cuda`.
+
+Example:
+
+    import os
+    os.environ.setdefault("NUMBA_ENABLE_CUDASIM", "1")
+    import numba.cuda as cuda
+
+Core concepts
+-------------
+
+Kernel definition
+  - Define a kernel as a Python function decorated with `@cuda.jit`.
+
+Indexing
+  - Prefer `cuda.grid(1)` / `cuda.grid(2)` to compute a global thread index.
+  - Bounds-check indices to avoid out-of-range memory writes.
+
+Device arrays
+  - Use `cuda.to_device` to copy host arrays to the device.
+  - Allocate outputs with `cuda.device_array` or `cuda.device_array_like`.
+
+Synchronization
+  - Use `cuda.synchronize()` on the host after launching kernels.
+  - Use `cuda.syncthreads()` inside a kernel to synchronize threads in a block.
+
+Atomics and shared memory
+  - Use `cuda.atomic.*` for atomic updates.
+  - Use `cuda.shared.array` to allocate shared memory within a block.
+
+Style guidance
+--------------
+When writing solutions, prefer:
+
+    import numba.cuda as cuda
+
+and call APIs via the `cuda` namespace.

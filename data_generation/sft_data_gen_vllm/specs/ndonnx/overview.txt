@@ -1,0 +1,12 @@
+ndonnx is an ONNX-backed Python array library that implements the Array API standard.
+It provides a NumPy-like functional API (e.g., ndx.sum / ndx.mean / ndx.reshape) over ndonnx.Array,
+and supports exporting computations to ONNX graphs.
+
+Key ideas:
+- Arrays can be created from data (lists/NumPy/scalars) or as symbolic placeholders (shape + dtype) for tracing.
+- Most Array API functions live in the top-level namespace (import ndonnx as ndx).
+- Extra utilities beyond the standard may live under ndonnx.extensions.
+
+When writing solutions, prefer using:
+  import ndonnx as ndx
+and call APIs via the `ndx` namespace.
