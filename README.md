@@ -1,6 +1,6 @@
 # PriCoder
 
-PriCoder is a full pipeline for **private-library-oriented code generation**: benchmark construction, inference/evaluation, and training-data synthesis for teaching models to truly use private libraries effectively.
+This repo provide a full pipeline for **private-library-oriented code generation**: benchmark construction, inference/evaluation, and training-data synthesis for teaching models to truly use private libraries effectively.
 
 ---
 
